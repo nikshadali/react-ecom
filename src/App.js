@@ -5,6 +5,7 @@ import Product from "./Pages/Product/Product";
 import Products from "./Pages/Products/Products";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
+import "./App.scss";
 
 const Layout = () => {
   return (
