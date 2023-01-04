@@ -9,6 +9,7 @@
         height: 400px;
         overflow: hidden;
         position: relative;
+        margin-top: 50px;
 
         &:hover{
             .secondImage{
@@ -23,6 +24,34 @@
         }
         .mainImage{
             z-index: 1;
+        }
+        span{
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            background: #ffffff;
+            color:#008080;
+            padding: 3px 5px;
+            z-index: 3;
+            font-weight: 500;
+            font-size: 12px;
+        }
+    }
+    h2{
+        font-size: 16px;
+        font-weight: 400;
+
+    }
+    .prices{
+        display: flex;
+        gap: 20px;
+        h3{
+            font-size: 18px;
+            font-size: 500;
+            &:first-child{
+                color: #808080;
+                text-decoration: line-through;
+            }
         }
     }
 }
