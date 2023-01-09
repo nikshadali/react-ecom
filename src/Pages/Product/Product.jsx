@@ -36,10 +36,10 @@ const Product = () => {
             <AddShoppingCartIcon /> ADD TO CARD
           </button>
           <div className="links">
-            <div className="itme">
+            <div className="item">
               <FavoriteBorderIcon /> ADD TO WISHLIST
             </div>
-            <div className="itme">
+            <div className="item">
               <BalanceIcon /> ADD TO WISHLIST
             </div>
           </div>
@@ -48,8 +48,8 @@ const Product = () => {
               <span>Product Type: T-Shirt</span>
               <span>Tag: T-Shirt, Women, Top</span>
           </div>
-          
           <hr />
+          
             <div className="info">
               <span>DESCRIPTION</span>
               <hr />
