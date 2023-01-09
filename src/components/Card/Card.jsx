@@ -2,7 +2,7 @@ import {Link} from 'react-router-dom'
 import './Card.scss'
 const Card = ({item}) => {
   return (
-    <Link to={`/product/${item.id}`} className="link">
+    <Link to={`/products/${item.id}`} className="link">
     <div className='card'>
     <div className="image">
       {item.isNew && <span>New Session</span>}
