@@ -1,14 +1,14 @@
 import Slider from "../../components/Slider/Slider"
-import FeatureProduct from "../../components/FeatureProduct/FeatureProduct"
+import FeatureProductone from "../../components/FeatureProduct/FeatureProductone"
 import Categories from "../../components/Categories/Categories";
 import Contact from "../../components/Contact/Contact";
 const Home = () => {
   return (
     <div className="home">
       <Slider />
-      <FeatureProduct type='featured'/>
+      <FeatureProductone type='featured'/>
       <Categories />
-      <FeatureProduct type='trending'/>
+      <FeatureProductone type='trending'/>
       <Contact />
     </div>
   )

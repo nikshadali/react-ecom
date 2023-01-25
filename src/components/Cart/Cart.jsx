@@ -1,51 +1,62 @@
 import './Cart.scss';
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-
+import { useSelector, useDispatch } from 'react-redux';
+import { removeItem, resetCard } from '../../redux/cartsLice';
+import { loadStripe } from "@stripe/stripe-js";
+import { makeReq } from '../../makeReq';
 const Cart = () => {
-    const data = [
-        {
-            id: 1,
-            img:"https://images.pexels.com/photos/1972115/pexels-photo-1972115.jpeg?auto=compress&cs=tinysrgb&w=1600",
-            img2:"https://images.pexels.com/photos/1163194/pexels-photo-1163194.jpeg?auto=compress&cs=tinysrgb&w=1600",
-            title:" Long Sleeve Grapich T-shirt",
-            isNew: true,
-            OldPrice: 19,
-            Price: 12,
-            desc:"lorem is best policy"
+   
+  
+            const data = useSelector((state) => state.cart.products)
+            const dispatch = useDispatch()
 
-        },
-        {
-            id: 2,
-            img:"https://images.pexels.com/photos/1759622/pexels-photo-1759622.jpeg?auto=compress&cs=tinysrgb&w=1600",
-            title:" Long Sleeve Grapich T-shirt",
-            isNew: true,
-            OldPrice: 19,
-            Price: 12,
-            desc:"lorem is best policy"
-        }
-    ]
+            const totalprice = () => {
+                let total = 0;
+                data.forEach(item => {
+                    total += item.quantity * item.price
+                })
+                return total.toFixed(2)
+            }
+            console.log(data)
+            const stripePromise = loadStripe('pk_test_51MTgyUGFVINGBBG1w4SqcNiXoiSrUV27FvPKVBEfFh1gWiLx755TFnWaYGDMQuHS35yNHC2x2PB2jIvODwFjn0xZ00TcEr7p84');
+
+            const handlePayment = async () => {
+                try {
+                  const stripe = await stripePromise;
+                  const res = await makeReq.post("/orders", {
+                    data,
+                  });
+                  await stripe.redirectToCheckout({
+                    sessionId: res.data.stripeSession.id,
+                  });
+            
+                } catch (err) {
+                  console.log(err);
+                }
+              };
   return (
     <div className='cart'>
         <h1>Product in Your Cart</h1>
         {data?.map(item => (
+           
             <div className="item">
                 <img src={item.img} alt="img" />
                 <div className="detail">
                     <h1>{item.title}</h1>
                     <p>{item.desc?. substring(0,100)}</p>
                     <div className="price">
-                        1 x {item.Price}
+                        {item.quantity} x {item.price}
                     </div>
                 </div>
-                <DeleteOutlinedIcon  className='delete'/>
+                <DeleteOutlinedIcon  className='delete'   onClick={() => dispatch(removeItem(item.id))}/>
             </div>
         ))}
         <div className="total">
-            <span>Subtotal</span>
-            <span>200</span>
+            <span>Total</span>
+            <span>{totalprice()}</span>
         </div>
-        <button>PROCEED TO CHECKOUT</button>
-      <span className="reset">
+        <button onClick={handlePayment}>PROCEED TO CHECKOUT</button>
+      <span className="reset" onClick={() => dispatch(resetCard())}>
         Reset Cart
       </span>
     </div>

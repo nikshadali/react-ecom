@@ -4,53 +4,59 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import BalanceIcon from "@mui/icons-material/Balance";
 import useFetch from '../../components/myhook/useFetch';
-import { useDispatch } from 'react-redux';
-import { useParams } from "react-router-dom";
-import {addToCart, removeToCart} from '../../redux/cartsLice'
+import { useParams } from 'react-router-dom';
 
 const Product = () => {
-  const id = useParams().id;
-  const dispatch = useDispatch()
-  
-  const [quantity, setQuantity] = useState(1);
- 
-  
-  const { data, loading, error } = useFetch(`/products/${id}?populate=*`);
+  const id = useParams().id
+    const [selectedImg, setSelectedImg] = useState('img')
+    const [quentity, setQuentity] = useState(1)
 
+    const {data, error, loading} = useFetch(`/products/${id}?populate=*`)
     console.log("id => ", data)
   return (
     <div className='product'>
-      {loading ? (
-        "loading ...."
-      ) : error ? ("something going worng") :(
-        <>
-        <div className="left">
-          <div className="images">
-
-          <img src={process.env.REACT_APP_API_UPLOAD + data?.attributes?.img?.data?.attributes?.url} alt="img" />
-          <img src={process.env.REACT_APP_API_UPLOAD + data?.attributes?.img2?.data?.attributes?.url} alt="img" />
-          </div>
-          <div className="mainImage">
-          <img src={process.env.REACT_APP_API_UPLOAD + data?.attributes?.img?.data?.attributes?.url} alt="img"/>
-          </div>
+     {loading ? (
+        " loading....." )
+      :( <>
+       <div className="left">
+        <div className="images">
+        <img
+                src={
+                  process.env.REACT_APP_API_UPLOAD +
+                  data?.attributes?.img?.data?.attributes?.url
+                }
+                alt=""
+                onClick={(e) => setSelectedImg("img")}
+              />
+              <img
+                src={
+                  process.env.REACT_APP_API_UPLOAD +
+                  data?.attributes?.img2?.data?.attributes?.url
+                }
+                alt=""
+                onClick={(e) => setSelectedImg("img2")}
+              />
         </div>
-        <div className="right">
+        <div className="mainImage">
+        <img
+                src={
+                  process.env.REACT_APP_API_UPLOAD +
+                  data?.attributes[selectedImg]?.data?.attributes?.url
+                }
+                alt=""
+              />
+        </div>
+      </div>
+      <div className="right">
         <h1>Title</h1>
         <span className='price'>19.5</span>
         <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorum nulla ipsum itaque nemo maxime. Error quos ullam quo nobis voluptatem. Modi dolores nisi adipisci quae quis enim ex repellat dolore.</p>
         <div className="quentity">
-          <button onClick={() => setQuantity((prev) => (prev === 1 ? 1 : prev -1))}>-</button>
-            {quantity}
-          <button onClick={() => setQuantity((prev) =>  prev + 1 )}>+</button>
+          <button onClick={() => setQuentity((prev) => (prev === 1 ? 1 : prev -1))}>-</button>
+            {quentity}
+          <button onClick={() => setQuentity((prev) =>  prev + 1 )}>+</button>
           </div>
-          <button className='add' onClick={() => dispatch(addToCart({
-            id: data.id,
-            title: data.attributes.title,
-            desc: data.attributes.desc,
-            price: data.attributes.price,
-            img: data.attributes.img.data.attributes.url,
-            quantity,
-          }))}>
+          <button className='add'>
             <AddShoppingCartIcon /> ADD TO CARD
           </button>
           <div className="links">
@@ -77,8 +83,9 @@ const Product = () => {
             
         </div>
       </div>
-        </>
-      )}
+      
+      </>)}
+     
 
     </div>
   )
